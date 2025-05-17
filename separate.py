@@ -472,6 +472,7 @@ class SeperateAttributes:
 class SeperateMDX(SeperateAttributes):        
 
     def seperate(self):
+        print(f"Running {self.__class__.__name__}.seperate for file: {self.audio_file}")
         samplerate = 44100
     
         if self.primary_model_name == self.model_basename and isinstance(self.primary_sources, tuple):
@@ -639,6 +640,7 @@ class SeperateMDX(SeperateAttributes):
 class SeperateMDXC(SeperateAttributes):        
 
     def seperate(self):
+        print(f"Running {self.__class__.__name__}.seperate for file: {self.audio_file}")
         samplerate = 44100
         sources = None
 
@@ -796,6 +798,7 @@ class SeperateMDXC(SeperateAttributes):
 
 class SeperateDemucs(SeperateAttributes):
     def seperate(self):
+        print(f"Running {self.__class__.__name__}.seperate for file: {self.audio_file}")
         samplerate = 44100
         source = None
         model_scale = None
@@ -1023,6 +1026,7 @@ class SeperateDemucs(SeperateAttributes):
 class SeperateVR(SeperateAttributes):        
 
     def seperate(self):
+        print(f"Running {self.__class__.__name__}.seperate for file: {self.audio_file}")
         if self.primary_model_name == self.model_basename and isinstance(self.primary_sources, tuple):
             y_spec, v_spec = self.primary_sources
             self.load_cached_sources()
