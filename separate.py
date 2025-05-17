@@ -33,7 +33,9 @@ import math
 from onnx import load
 from onnx2pytorch import ConvertModel
 import gc
- 
+import sys
+import traceback
+
 if TYPE_CHECKING:
     from UVR import ModelData
 
@@ -1462,3 +1464,28 @@ def loading_mix(X, mp):
     del X_wave, X_spec_s
 
     return X_spec
+
+def main():
+    print("DEBUG: Entered main()")
+    print("DEBUG: sys.argv:", sys.argv)
+    try:
+        # Argument parsing (example, adjust as needed)
+        # ...
+        print("DEBUG: Arguments parsed")
+        # Main logic start
+        # ...
+        print("DEBUG: Before calling separation logic")
+        # Call to separation logic (example)
+        # result = run_separation(...)
+        print("DEBUG: After calling separation logic")
+        # Output file creation
+        # print("DEBUG: Checking for output files ...")
+        # ...
+        print("DEBUG: main() completed")
+    except Exception as e:
+        print("DEBUG: Exception occurred:", e)
+        traceback.print_exc()
+
+if __name__ == "__main__":
+    print("DEBUG: __main__ block entered")
+    main()
