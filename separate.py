@@ -1,5 +1,5 @@
-print("DEBUG: separate.py loaded from", __file__)
 from __future__ import annotations
+print("DEBUG: separate.py loaded from", __file__)
 from typing import TYPE_CHECKING
 from demucs.apply import apply_model, demucs_segments
 from demucs.hdemucs import HDemucs
