@@ -1,11 +1,11 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from .demucs.apply import apply_model
-from .demucs.hdemucs import HDemucs
-from .demucs.model_v2 import auto_load_demucs_model_v2
-from .demucs.pretrained import get_model as _gm
-from .demucs.utils import apply_model_v1
-from .demucs.utils import apply_model_v2
+from demucs.apply import apply_model, demucs_segments
+from demucs.hdemucs import HDemucs
+from demucs.model_v2 import auto_load_demucs_model_v2
+from demucs.pretrained import get_model as _gm
+from demucs.utils import apply_model_v1
+from demucs.utils import apply_model_v2
 from lib_v5.tfc_tdf_v3 import TFC_TDF_net, STFT
 from lib_v5 import spec_utils
 from lib_v5.vr_network import nets
@@ -343,7 +343,7 @@ class SeperateAttributes:
                 self.cached_model_source_holder(DEMUCS_ARCH_TYPE, secondary_sources, self.model_basename)
            
     def process_vocal_split_chain(self, sources: dict):
-        print("process_vocal_split_chain")
+        
         def is_valid_vocal_split_condition(master_vocal_source):
             """Checks if conditions for vocal split processing are met."""
             conditions = [
@@ -384,7 +384,7 @@ class SeperateAttributes:
         return {stem_name: source}
     
     def write_audio(self, stem_path: str, stem_source, samplerate, stem_name=None):
-        print("write_audio")
+        
         def save_audio_file(path, source):
             source = spec_utils.normalize(source, self.is_normalization)
             sf.write(path, source, samplerate, subtype=self.wav_type_set)
@@ -473,7 +473,7 @@ class SeperateMDX(SeperateAttributes):
 
     def seperate(self):
         samplerate = 44100
-        print("seperateMDX")
+    
         if self.primary_model_name == self.model_basename and isinstance(self.primary_sources, tuple):
             mix, source = self.primary_sources
             self.load_cached_sources()
@@ -833,8 +833,7 @@ class SeperateDemucs(SeperateAttributes):
                 self.demucs = HDemucs(sources=self.demucs_source_list)
                 self.demucs = _gm(name=os.path.splitext(os.path.basename(self.model_path))[0], 
                                   repo=Path(os.path.dirname(self.model_path)))
-                if self.segment is not None:
-                    self.demucs.segment = self.segment
+                self.demucs = demucs_segments(self.segment, self.demucs)
                 self.demucs.to(self.device)
                 self.demucs.eval()
 
@@ -1024,7 +1023,6 @@ class SeperateDemucs(SeperateAttributes):
 class SeperateVR(SeperateAttributes):        
 
     def seperate(self):
-        print("seperate")
         if self.primary_model_name == self.model_basename and isinstance(self.primary_sources, tuple):
             y_spec, v_spec = self.primary_sources
             self.load_cached_sources()
@@ -1244,7 +1242,6 @@ def process_chain_model(secondary_model: ModelData,
                         master_vocal_source, 
                         master_inst_source=None):
     
-    print("process_chain")
     process_iteration = process_data['process_iteration']
     process_iteration()
     
@@ -1311,7 +1308,7 @@ def rerun_mp3(audio_file, sample_rate=44100):
     return librosa.load(audio_file, duration=track_length, mono=False, sr=sample_rate)[0]
 
 def save_format(audio_path, save_format, mp3_bit_set):
-    print("saving format")
+    
     if not save_format == WAV:
         
         if OPERATING_SYSTEM == 'Darwin':
