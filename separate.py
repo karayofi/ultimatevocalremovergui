@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from demucs.apply import apply_model, demucs_segments
+from demucs.apply import apply_model
 from demucs.hdemucs import HDemucs
 from demucs.model_v2 import auto_load_demucs_model_v2
 from demucs.pretrained import get_model as _gm
@@ -833,7 +833,8 @@ class SeperateDemucs(SeperateAttributes):
                 self.demucs = HDemucs(sources=self.demucs_source_list)
                 self.demucs = _gm(name=os.path.splitext(os.path.basename(self.model_path))[0], 
                                   repo=Path(os.path.dirname(self.model_path)))
-                self.demucs = demucs_segments(self.segment, self.demucs)
+                if self.segment is not None:
+                    self.demucs.segment = self.segment
                 self.demucs.to(self.device)
                 self.demucs.eval()
 
