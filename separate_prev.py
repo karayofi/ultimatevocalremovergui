@@ -1,9 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from demucs.apply import apply_model, demucs_segments
-from demucs.hdemucs import HDemucs
-from demucs.model_v2 import auto_load_demucs_model_v2
-from demucs.pretrained import get_model as _gm
+from .demucs.apply import apply_model, demucs_segments
+from .demucs.hdemucs import HDemucs
+from .demucs.model_v2 import auto_load_demucs_model_v2
+from .demucs.pretrained import get_model as _gm
 from .demucs.utils import apply_model_v1
 from .demucs.utils import apply_model_v2
 from lib_v5.tfc_tdf_v3 import TFC_TDF_net, STFT
